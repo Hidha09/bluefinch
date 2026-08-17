@@ -2,18 +2,7 @@
   "name": "purchase-management-dashboard",
   "version": "1.0.0",
   "description": "ERP Purchase Management Dashboard with HTML/CSS/JS frontend and PHP API backend",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
     "dev": "node server.js"
-  },
-  "keywords": [
-    "erp",
-    "purchase-order",
-    "dashboard",
-    "php",
-    "javascript"
-  ],
-  "author": "",
-  "license": "MIT"
+  }
 }
