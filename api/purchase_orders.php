@@ -4,6 +4,43 @@ require_once __DIR__ . '/db_helper.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $purchase_orders = read_json_file('purchase_orders.json');
 
+function validate_purchase_order_payload($data, $requireItems = true) {
+    if (empty($data['supplier_id'])) {
+        json_response(false, null, 'Supplier selection is required', 400);
+    }
+    if (empty($data['po_date'])) {
+        json_response(false, null, 'PO Date is required', 400);
+    }
+    if ($requireItems && (empty($data['items']) || !is_array($data['items']) || count($data['items']) === 0)) {
+        json_response(false, null, 'At least one item row is required in Purchase Order', 400);
+    }
+    if (isset($data['status']) && !is_valid_status($data['status'], ['Draft', 'Pending', 'Completed'])) {
+        json_response(false, null, 'Purchase order status is invalid', 400);
+    }
+    if (isset($data['additional_charges']) && !is_non_negative_number($data['additional_charges'])) {
+        json_response(false, null, 'Additional charges must be zero or greater', 400);
+    }
+    if (!empty($data['items'])) {
+        foreach ($data['items'] as $index => $itemRow) {
+            if (empty($itemRow['item_id']) || empty($itemRow['item_code']) || empty($itemRow['item_name'])) {
+                json_response(false, null, 'Item row #' . ($index + 1) . ' must reference an item from Item Master', 400);
+            }
+            if (!isset($itemRow['quantity']) || floatval($itemRow['quantity']) <= 0) {
+                json_response(false, null, 'Item row #' . ($index + 1) . ' quantity must be greater than 0', 400);
+            }
+            if (!isset($itemRow['unit_price']) || !is_non_negative_number($itemRow['unit_price'])) {
+                json_response(false, null, 'Item row #' . ($index + 1) . ' unit price must be zero or greater', 400);
+            }
+            if (isset($itemRow['discount']) && !is_non_negative_number($itemRow['discount'])) {
+                json_response(false, null, 'Item row #' . ($index + 1) . ' discount must be zero or greater', 400);
+            }
+            if (isset($itemRow['tax']) && (!is_non_negative_number($itemRow['tax']) || floatval($itemRow['tax']) > 100)) {
+                json_response(false, null, 'Item row #' . ($index + 1) . ' tax must be between 0 and 100', 400);
+            }
+        }
+    }
+}
+
 if ($method === 'GET') {
     if (isset($_GET['action']) && $_GET['action'] === 'next_po_number') {
         json_response(true, [
@@ -46,23 +83,7 @@ if ($method === 'GET') {
 
 if ($method === 'POST') {
     $data = parse_request_body();
-    
-    // Server-side validations
-    if (empty($data['supplier_id'])) {
-        json_response(false, null, 'Supplier selection is required', 400);
-    }
-    if (empty($data['po_date'])) {
-        json_response(false, null, 'PO Date is required', 400);
-    }
-    if (empty($data['items']) || !is_array($data['items']) || count($data['items']) === 0) {
-        json_response(false, null, 'At least one item row is required in Purchase Order', 400);
-    }
-
-    foreach ($data['items'] as $index => $itemRow) {
-        if (!isset($itemRow['quantity']) || floatval($itemRow['quantity']) <= 0) {
-            json_response(false, null, 'Item row #' . ($index + 1) . ' quantity must be greater than 0', 400);
-        }
-    }
+    validate_purchase_order_payload($data);
 
     $maxIntegerId = 0;
     foreach ($purchase_orders as $po) {
@@ -147,6 +168,7 @@ if ($method === 'PUT') {
     if (empty($data['id'])) {
         json_response(false, null, 'Purchase Order ID is required', 400);
     }
+    validate_purchase_order_payload($data, isset($data['items']));
 
     $found = false;
     foreach ($purchase_orders as &$po) {

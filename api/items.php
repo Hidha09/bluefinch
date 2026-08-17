@@ -31,6 +31,12 @@ if ($method === 'POST') {
     if (!isset($data['purchase_price']) || floatval($data['purchase_price']) < 0) {
         json_response(false, null, 'Valid Purchase Price is required', 400);
     }
+    if (isset($data['tax']) && (!is_non_negative_number($data['tax']) || floatval($data['tax']) > 100)) {
+        json_response(false, null, 'Tax must be between 0 and 100', 400);
+    }
+    if (isset($data['status']) && !is_valid_status($data['status'], ['Active', 'Inactive'])) {
+        json_response(false, null, 'Item status must be Active or Inactive', 400);
+    }
 
     $maxIntegerId = 0;
     foreach ($items as $item) {
@@ -61,6 +67,15 @@ if ($method === 'PUT') {
     $data = parse_request_body();
     if (empty($data['id'])) {
         json_response(false, null, 'Item ID is required for update', 400);
+    }
+    if (isset($data['purchase_price']) && !is_non_negative_number($data['purchase_price'])) {
+        json_response(false, null, 'Purchase Price must be zero or greater', 400);
+    }
+    if (isset($data['tax']) && (!is_non_negative_number($data['tax']) || floatval($data['tax']) > 100)) {
+        json_response(false, null, 'Tax must be between 0 and 100', 400);
+    }
+    if (isset($data['status']) && !is_valid_status($data['status'], ['Active', 'Inactive'])) {
+        json_response(false, null, 'Item status must be Active or Inactive', 400);
     }
 
     $found = false;

@@ -19,19 +19,31 @@ const API = {
       }
     };
 
+    let response;
     try {
-      const response = await fetch(url, config);
-      const data = await response.json();
-      if (!response.ok || !data.success) {
-        const errorMsg = data.message || `API Error (${response.status})`;
-        throw new Error(errorMsg);
-      }
-      return data;
+      response = await fetch(url, config);
     } catch (err) {
-      console.error(`API Fetch Error [${endpoint}]:`, err);
-      // Fallback for local static file preview if PHP API server is offline
-      return await this.fallbackLocalHandler(endpoint, options, err);
+      // Support an offline/static preview only when the API cannot be reached.
+      return this.fallbackLocalHandler(endpoint, options, err);
     }
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (err) {
+      throw new Error(`API returned an invalid response (${response.status})`);
+    }
+
+    // The included Node preview server has no PHP runtime. Keep its demo
+    // fallback, but surface all real PHP validation and server errors.
+    if (data && data.message === 'PHP CLI execution unavailable locally. Client fallback active.') {
+      return this.fallbackLocalHandler(endpoint, options, new Error(data.message));
+    }
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || `API Error (${response.status})`);
+    }
+    return data;
   },
 
   async get(endpoint, params = {}) {

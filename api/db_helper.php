@@ -75,6 +75,18 @@ function parse_request_body() {
     return $_POST;
 }
 
+function is_valid_email($email) {
+    return filter_var(trim((string)$email), FILTER_VALIDATE_EMAIL) !== false;
+}
+
+function is_valid_status($status, $allowedStatuses) {
+    return in_array(trim((string)$status), $allowedStatuses, true);
+}
+
+function is_non_negative_number($value) {
+    return is_numeric($value) && floatval($value) >= 0;
+}
+
 // System Auto-Generators
 function generate_next_supplier_id($suppliers) {
     $maxId = 1000;

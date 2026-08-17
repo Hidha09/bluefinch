@@ -75,22 +75,35 @@ async function populateSupplierDropdown(selectedId = null) {
 
 // Open Create PO Form
 async function openCreatePOForm() {
-  document.getElementById('po-form').reset();
-  document.getElementById('po-edit-id').value = '';
-  document.getElementById('po-form-title').textContent = 'Create Purchase Order';
-  document.getElementById('po-items-table-body').innerHTML = '';
-  document.getElementById('po-date').value = new Date().toISOString().split('T')[0];
-  document.getElementById('po-created-by').value = 'John Doe (Purchasing Agent)';
+  const form = document.getElementById('po-form');
+  if (form) form.reset();
+
+  const editIdEl = document.getElementById('po-edit-id');
+  if (editIdEl) editIdEl.value = '';
+
+  const formTitleEl = document.getElementById('po-form-title');
+  if (formTitleEl) formTitleEl.textContent = 'Section 1: Purchase Order Information';
+
+  const itemsTableBody = document.getElementById('po-items-table-body');
+  if (itemsTableBody) itemsTableBody.innerHTML = '';
+
+  const poDateEl = document.getElementById('po-date');
+  if (poDateEl) poDateEl.value = new Date().toISOString().split('T')[0];
+
+  const createdByEl = document.getElementById('po-created-by');
+  if (createdByEl) createdByEl.value = 'John Doe (Procurement Agent)';
 
   await populateSupplierDropdown();
 
   try {
     const res = await API.get('purchase_orders.php', { action: 'next_po_number' });
-    if (res.success && res.data) {
-      document.getElementById('po-number').value = res.data.po_number;
+    if (res.success && res.data && res.data.po_number) {
+      const poNumEl = document.getElementById('po-number');
+      if (poNumEl) poNumEl.value = res.data.po_number;
     }
   } catch (err) {
-    document.getElementById('po-number').value = 'PO-2026-0001';
+    const poNumEl = document.getElementById('po-number');
+    if (poNumEl) poNumEl.value = 'PO-2026-0001';
   }
 
   // Add 1 default empty item row
@@ -105,28 +118,50 @@ async function openEditPOForm(id) {
   const po = poCache.find(p => p.id == id);
   if (!po) return;
 
-  document.getElementById('po-edit-id').value = po.id;
-  document.getElementById('po-form-title').textContent = `Edit Purchase Order (${po.po_number})`;
-  document.getElementById('po-number').value = po.po_number || '';
-  document.getElementById('po-date').value = po.po_date || '';
-  document.getElementById('po-expected-date').value = po.expected_delivery_date || '';
-  document.getElementById('po-reference-no').value = po.reference_number || '';
-  document.getElementById('po-payment-terms').value = po.payment_terms || '30 Days';
-  document.getElementById('po-delivery-location').value = po.delivery_location || '';
-  document.getElementById('po-created-by').value = po.created_by || 'John Doe (Purchasing Agent)';
-  document.getElementById('po-notes').value = po.notes || '';
-  document.getElementById('po-additional-charges').value = parseFloat(po.additional_charges || 0).toFixed(2);
+  const editIdEl = document.getElementById('po-edit-id');
+  if (editIdEl) editIdEl.value = po.id;
+
+  const formTitleEl = document.getElementById('po-form-title');
+  if (formTitleEl) formTitleEl.textContent = `Edit Purchase Order (${po.po_number})`;
+
+  const poNumEl = document.getElementById('po-number');
+  if (poNumEl) poNumEl.value = po.po_number || '';
+
+  const poDateEl = document.getElementById('po-date');
+  if (poDateEl) poDateEl.value = po.po_date || '';
+
+  const expDateEl = document.getElementById('po-expected-date');
+  if (expDateEl) expDateEl.value = po.expected_delivery_date || '';
+
+  const refNoEl = document.getElementById('po-reference-no');
+  if (refNoEl) refNoEl.value = po.reference_number || '';
+
+  const termsEl = document.getElementById('po-payment-terms');
+  if (termsEl) termsEl.value = po.payment_terms || '30 Days';
+
+  const locEl = document.getElementById('po-delivery-location');
+  if (locEl) locEl.value = po.delivery_location || '';
+
+  const createdByEl = document.getElementById('po-created-by');
+  if (createdByEl) createdByEl.value = po.created_by || 'John Doe (Procurement Agent)';
+
+  const notesEl = document.getElementById('po-notes');
+  if (notesEl) notesEl.value = po.notes || '';
+
+  const addChargesEl = document.getElementById('po-additional-charges');
+  if (addChargesEl) addChargesEl.value = parseFloat(po.additional_charges || 0).toFixed(2);
 
   await populateSupplierDropdown(po.supplier_id);
 
   // Populate Item Rows
   const tbody = document.getElementById('po-items-table-body');
-  tbody.innerHTML = '';
-
-  if (po.items && po.items.length > 0) {
-    po.items.forEach(item => addPOItemRow(item));
-  } else {
-    addPOItemRow();
+  if (tbody) {
+    tbody.innerHTML = '';
+    if (po.items && po.items.length > 0) {
+      po.items.forEach(item => addPOItemRow(item));
+    } else {
+      addPOItemRow();
+    }
   }
 
   calculatePOSummary();
@@ -145,9 +180,9 @@ function addPOItemRow(itemData = null) {
   tr.innerHTML = `
     <td>
       <input type="hidden" class="row-item-id" value="${itemData ? itemData.item_id || '' : ''}">
-      <button type="button" class="item-select-btn" onclick="openItemPickerModal('${rowId}')">
+      <button type="button" class="btn btn-secondary btn-sm item-select-btn" onclick="openItemPickerModal('${rowId}')" style="width: 100%; justify-content: flex-start;">
         <i class="fa-solid fa-magnifying-glass" style="color: var(--primary);"></i>
-        <span class="row-item-name-text">${itemData ? escapeHtml(itemData.item_name || 'Select Item') : 'Select Item...'}</span>
+        <span class="row-item-name-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${itemData ? escapeHtml(itemData.item_name || 'Select Item...') : 'Select Item...'}</span>
       </button>
     </td>
     <td>
@@ -196,17 +231,18 @@ function calculateRowAndSummary(rowId) {
   const row = document.getElementById(rowId);
   if (!row) return;
 
-  const qty = parseFloat(row.querySelector('.row-qty').value) || 0;
-  const price = parseFloat(row.querySelector('.row-price').value) || 0;
-  const discount = parseFloat(row.querySelector('.row-discount').value) || 0;
-  const taxPct = parseFloat(row.querySelector('.row-tax').value) || 0;
+  const qty = parseFloat(row.querySelector('.row-qty')?.value) || 0;
+  const price = parseFloat(row.querySelector('.row-price')?.value) || 0;
+  const discount = parseFloat(row.querySelector('.row-discount')?.value) || 0;
+  const taxPct = parseFloat(row.querySelector('.row-tax')?.value) || 0;
 
   const rawAmount = qty * price;
   const afterDiscount = Math.max(0, rawAmount - discount);
   const taxAmount = (afterDiscount * taxPct) / 100;
   const lineTotal = afterDiscount + taxAmount;
 
-  row.querySelector('.row-linetotal').textContent = '$' + lineTotal.toFixed(2);
+  const lineTotalEl = row.querySelector('.row-linetotal');
+  if (lineTotalEl) lineTotalEl.textContent = '$' + lineTotal.toFixed(2);
   calculatePOSummary();
 }
 
@@ -235,10 +271,17 @@ function calculatePOSummary() {
   const additionalCharges = parseFloat(document.getElementById('po-additional-charges')?.value) || 0;
   const grandTotal = (subtotal - totalDiscount) + totalTax + additionalCharges;
 
-  document.getElementById('po-summary-subtotal').textContent = '$' + subtotal.toFixed(2);
-  document.getElementById('po-summary-discount').textContent = '-$' + totalDiscount.toFixed(2);
-  document.getElementById('po-summary-tax').textContent = '$' + totalTax.toFixed(2);
-  document.getElementById('po-summary-grandtotal').textContent = '$' + grandTotal.toFixed(2);
+  const subEl = document.getElementById('po-summary-subtotal');
+  if (subEl) subEl.textContent = '$' + subtotal.toFixed(2);
+
+  const discEl = document.getElementById('po-summary-discount');
+  if (discEl) discEl.textContent = '-$' + totalDiscount.toFixed(2);
+
+  const taxEl = document.getElementById('po-summary-tax');
+  if (taxEl) taxEl.textContent = '$' + totalTax.toFixed(2);
+
+  const grandEl = document.getElementById('po-summary-grandtotal');
+  if (grandEl) grandEl.textContent = '$' + grandTotal.toFixed(2);
 }
 
 // Item Selection Popup Modal
@@ -250,6 +293,7 @@ async function openItemPickerModal(rowId) {
   try {
     const res = await API.get('items.php');
     if (res.success && res.data) {
+      if (typeof itemsCache !== 'undefined') itemsCache = res.data;
       const activeItems = res.data.filter(i => i.status === 'Active');
       renderPickerItems(activeItems);
     }
@@ -257,7 +301,8 @@ async function openItemPickerModal(rowId) {
     showToast('Failed to load item master: ' + err.message, 'error');
   }
 
-  document.getElementById('modal-item-picker').classList.add('show');
+  const modal = document.getElementById('modal-item-picker');
+  if (modal) modal.classList.add('show');
 }
 
 function renderPickerItems(items) {
@@ -265,7 +310,7 @@ function renderPickerItems(items) {
   if (!tbody) return;
 
   if (!items || items.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty-row">No active items available.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-row">No active items available.</td></tr>`;
     return;
   }
 
@@ -276,7 +321,6 @@ function renderPickerItems(items) {
       <td>${escapeHtml(item.category || 'General')}</td>
       <td>${escapeHtml(item.unit || 'Pcs')}</td>
       <td>$${parseFloat(item.purchase_price || 0).toFixed(2)}</td>
-      <td>${item.tax || 0}%</td>
       <td>
         <button class="btn btn-primary btn-sm" onclick="selectItemForPO(${item.id})">Select</button>
       </td>
@@ -285,7 +329,11 @@ function renderPickerItems(items) {
 }
 
 function selectItemForPO(itemId) {
-  const item = itemsCache.find(i => i.id == itemId);
+  let item = null;
+  if (typeof itemsCache !== 'undefined' && itemsCache.length > 0) {
+    item = itemsCache.find(i => i.id == itemId);
+  }
+
   if (!item || !activeRowForPicker) return;
 
   const row = document.getElementById(activeRowForPicker);
@@ -304,17 +352,24 @@ function selectItemForPO(itemId) {
 }
 
 function closeItemPickerModal() {
-  document.getElementById('modal-item-picker').classList.remove('show');
+  const modal = document.getElementById('modal-item-picker');
+  if (modal) modal.classList.remove('show');
   activeRowForPicker = null;
 }
 
 // Submit PO (Draft or Submitted/Pending)
 async function savePO(status = 'Draft') {
-  const editId = document.getElementById('po-edit-id').value;
+  const editId = document.getElementById('po-edit-id')?.value || '';
   const supplierSelect = document.getElementById('po-supplier-id');
-  const supplierId = supplierSelect.value;
-  const supplierName = supplierSelect.options[supplierSelect.selectedIndex]?.dataset?.name || '';
-  const poDate = document.getElementById('po-date').value;
+  const supplierId = supplierSelect?.value || '';
+  
+  let supplierName = '';
+  if (supplierSelect && supplierSelect.selectedIndex >= 0) {
+    const selectedOpt = supplierSelect.options[supplierSelect.selectedIndex];
+    supplierName = selectedOpt ? (selectedOpt.getAttribute('data-name') || selectedOpt.text.split(' (')[0]) : '';
+  }
+
+  const poDate = document.getElementById('po-date')?.value || '';
 
   if (!supplierId) {
     showToast('Please select a supplier', 'error');
@@ -335,15 +390,21 @@ async function savePO(status = 'Draft') {
   let valid = true;
 
   rows.forEach((row, index) => {
-    const itemId = row.querySelector('.row-item-id').value;
-    const itemName = row.querySelector('.row-item-name-text').textContent;
-    const itemCode = row.querySelector('.row-item-code').value;
-    const description = row.querySelector('.row-description').value;
-    const qty = parseFloat(row.querySelector('.row-qty').value);
-    const unit = row.querySelector('.row-unit').value;
-    const price = parseFloat(row.querySelector('.row-price').value);
-    const discount = parseFloat(row.querySelector('.row-discount').value) || 0;
-    const tax = parseFloat(row.querySelector('.row-tax').value) || 0;
+    const itemId = row.querySelector('.row-item-id')?.value || '';
+    const itemName = row.querySelector('.row-item-name-text')?.textContent || '';
+    const itemCode = row.querySelector('.row-item-code')?.value || '';
+    const description = row.querySelector('.row-description')?.value || '';
+    const qty = parseFloat(row.querySelector('.row-qty')?.value);
+    const unit = row.querySelector('.row-unit')?.value || 'Pcs';
+    const price = parseFloat(row.querySelector('.row-price')?.value) || 0;
+    const discount = parseFloat(row.querySelector('.row-discount')?.value) || 0;
+    const tax = parseFloat(row.querySelector('.row-tax')?.value) || 0;
+
+    if (!itemCode || itemName === 'Select Item...') {
+      showToast(`Row #${index + 1}: Please select an item from Master`, 'error');
+      valid = false;
+      return;
+    }
 
     if (isNaN(qty) || qty <= 0) {
       showToast(`Row #${index + 1}: Quantity must be greater than 0`, 'error');
@@ -370,13 +431,13 @@ async function savePO(status = 'Draft') {
     po_date: poDate,
     supplier_id: supplierId,
     supplier_name: supplierName,
-    expected_delivery_date: document.getElementById('po-expected-date').value,
-    reference_number: document.getElementById('po-reference-no').value,
-    payment_terms: document.getElementById('po-payment-terms').value,
-    delivery_location: document.getElementById('po-delivery-location').value,
-    created_by: document.getElementById('po-created-by').value,
-    notes: document.getElementById('po-notes').value,
-    additional_charges: parseFloat(document.getElementById('po-additional-charges').value) || 0,
+    expected_delivery_date: document.getElementById('po-expected-date')?.value || '',
+    reference_number: document.getElementById('po-reference-no')?.value || '',
+    payment_terms: document.getElementById('po-payment-terms')?.value || '30 Days',
+    delivery_location: document.getElementById('po-delivery-location')?.value || '',
+    created_by: document.getElementById('po-created-by')?.value || 'John Doe (Procurement Agent)',
+    notes: document.getElementById('po-notes')?.value || '',
+    additional_charges: parseFloat(document.getElementById('po-additional-charges')?.value) || 0,
     status: status,
     items: items
   };
@@ -423,6 +484,8 @@ function viewPODetails(id) {
   if (!po) return;
 
   const content = document.getElementById('po-view-details-content');
+  if (!content) return;
+
   let statusClass = 'badge-draft';
   const st = (po.status || 'Draft').toLowerCase();
   if (st === 'pending' || st === 'submitted') statusClass = 'badge-pending';
@@ -493,5 +556,6 @@ function viewPODetails(id) {
     </div>
   `;
 
-  document.getElementById('modal-view-po').classList.add('show');
+  const modal = document.getElementById('modal-view-po');
+  if (modal) modal.classList.add('show');
 }

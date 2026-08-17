@@ -36,6 +36,12 @@ if ($method === 'POST') {
     if (empty($data['email'])) {
         json_response(false, null, 'Email is required', 400);
     }
+    if (!is_valid_email($data['email'])) {
+        json_response(false, null, 'Please provide a valid email address', 400);
+    }
+    if (isset($data['status']) && !is_valid_status($data['status'], ['Active', 'Inactive'])) {
+        json_response(false, null, 'Supplier status must be Active or Inactive', 400);
+    }
 
     $maxIntegerId = 0;
     foreach ($suppliers as $s) {
@@ -68,6 +74,12 @@ if ($method === 'PUT') {
     $data = parse_request_body();
     if (empty($data['id'])) {
         json_response(false, null, 'Supplier ID is required for update', 400);
+    }
+    if (isset($data['email']) && !is_valid_email($data['email'])) {
+        json_response(false, null, 'Please provide a valid email address', 400);
+    }
+    if (isset($data['status']) && !is_valid_status($data['status'], ['Active', 'Inactive'])) {
+        json_response(false, null, 'Supplier status must be Active or Inactive', 400);
     }
 
     $found = false;
