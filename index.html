@@ -238,150 +238,154 @@
           <form id="po-form">
             <input type="hidden" id="po-edit-id" value="">
 
-            <div class="po-form-layout">
-              <!-- Left Form Column -->
-              <div class="form-main-column">
-                
-                <!-- Section 1: Purchase Order Information -->
-                <div class="form-section-card">
-                  <div class="form-section-title">
-                    <span id="po-form-title">Section 1: Purchase Order Information</span>
-                    <button type="button" class="btn btn-secondary btn-sm" id="btn-cancel-po-top">
-                      <i class="fa-solid fa-arrow-left"></i> Back to Orders
-                    </button>
-                  </div>
-
-                  <div class="form-grid">
-                    <div class="form-group">
-                      <label>PO Number</label>
-                      <input type="text" id="po-number" class="form-control" readonly placeholder="Auto Generated">
-                    </div>
-
-                    <div class="form-group">
-                      <label>PO Date <span class="required">*</span></label>
-                      <input type="date" id="po-date" class="form-control" required>
-                    </div>
-
-                    <div class="form-group col-span-2">
-                      <label>Supplier <span class="required">*</span></label>
-                      <select id="po-supplier-id" class="form-control select-control" required>
-                        <option value="">-- Select Supplier --</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label>Expected Delivery Date</label>
-                      <input type="date" id="po-expected-date" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                      <label>Reference Number</label>
-                      <input type="text" id="po-reference-no" class="form-control" placeholder="Supplier Ref #">
-                    </div>
-
-                    <div class="form-group">
-                      <label>Payment Terms</label>
-                      <select id="po-payment-terms" class="form-control select-control">
-                        <option value="30 Days">30 Days</option>
-                        <option value="60 Days">60 Days</option>
-                        <option value="Immediate">Immediate</option>
-                        <option value="Net 15">Net 15</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label>Delivery Location</label>
-                      <input type="text" id="po-delivery-location" class="form-control" placeholder="Main Warehouse">
-                    </div>
-
-                    <div class="form-group col-span-2">
-                      <label>Created By</label>
-                      <input type="text" id="po-created-by" class="form-control" value="John Doe (Procurement Agent)">
-                    </div>
-
-                    <div class="form-group col-span-4">
-                      <label>Notes / Special Remarks</label>
-                      <textarea id="po-notes" class="form-control" placeholder="Additional purchasing instructions..."></textarea>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Section 2: Item Details Table -->
-                <div class="form-section-card">
-                  <div class="form-section-title">
-                    <span style="display: flex; align-items: center; gap: 8px;">
-                      <i class="fa-solid fa-list-check" style="color: var(--primary);"></i>
-                      Section 2: Item Details
-                    </span>
-                    <button type="button" class="btn btn-primary btn-sm" id="btn-add-item-row">
-                      <i class="fa-solid fa-plus"></i> Add Item Row
-                    </button>
-                  </div>
-
-                  <div class="table-responsive items-table-wrapper">
-                    <table class="data-table items-table">
-                      <thead>
-                        <tr>
-                          <th style="min-width: 220px;">Item Name</th>
-                          <th style="min-width: 110px;">Item Code</th>
-                          <th style="min-width: 200px;">Description</th>
-                          <th style="min-width: 90px; text-align: right;">Qty</th>
-                          <th style="min-width: 80px;">Unit</th>
-                          <th style="min-width: 110px; text-align: right;">Price ($)</th>
-                          <th style="min-width: 100px; text-align: right;">Disc ($)</th>
-                          <th style="min-width: 90px; text-align: right;">Tax (%)</th>
-                          <th style="min-width: 120px; text-align: right;">Line Total</th>
-                          <th style="width: 44px; text-align: center;"></th>
-                        </tr>
-                      </thead>
-                      <tbody id="po-items-table-body">
-                        <!-- Dynamic item rows -->
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
+            <!-- Section 1: Purchase Order Information -->
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span id="po-form-title">Section 1: Purchase Order Information</span>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-cancel-po-top">
+                  <i class="fa-solid fa-arrow-left"></i> Back to Orders
+                </button>
               </div>
 
-              <!-- Right Sticky Summary Panel & Actions (Section 3) -->
-              <div class="sticky-summary-panel">
-                <div class="summary-title">Order Summary</div>
-                
-                <div class="summary-row">
-                  <span>Subtotal:</span>
-                  <span id="po-summary-subtotal" style="font-weight: 600;">$0.00</span>
-                </div>
-                <div class="summary-row">
-                  <span>Total Discount:</span>
-                  <span id="po-summary-discount" style="color: #ef4444; font-weight: 600;">-$0.00</span>
-                </div>
-                <div class="summary-row">
-                  <span>Total Tax:</span>
-                  <span id="po-summary-tax" style="font-weight: 600;">$0.00</span>
-                </div>
-                <div class="summary-row">
-                  <span>Additional Charges:</span>
-                  <input type="number" id="po-additional-charges" class="form-control" style="width: 90px; text-align: right; padding: 4px 6px;" min="0" step="0.01" value="0.00">
-                </div>
-                
-                <div class="summary-row grand-total">
-                  <span>Grand Total:</span>
-                  <span id="po-summary-grandtotal">$0.00</span>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>PO Number</label>
+                  <input type="text" id="po-number" class="form-control" readonly placeholder="Auto Generated">
                 </div>
 
-                <div class="form-actions-footer" style="flex-direction: column; gap: 8px; margin-top: 10px; border-top: none; padding-top: 0;">
-                  <button type="submit" class="btn btn-primary" style="width: 100%;" id="btn-submit-po">
-                    <i class="fa-solid fa-paper-plane"></i> Submit Order
-                  </button>
-                  <button type="button" class="btn btn-secondary" style="width: 100%;" id="btn-save-draft">
-                    <i class="fa-solid fa-floppy-disk"></i> Save as Draft
-                  </button>
-                  <button type="button" class="btn btn-secondary" style="width: 100%;" id="btn-cancel-po">
-                    Cancel
-                  </button>
+                <div class="form-group">
+                  <label>PO Date <span class="required">*</span></label>
+                  <input type="date" id="po-date" class="form-control" required>
+                </div>
+
+                <div class="form-group col-span-2">
+                  <label>Supplier <span class="required">*</span></label>
+                  <select id="po-supplier-id" class="form-control select-control" required>
+                    <option value="">-- Select Supplier --</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Expected Delivery Date</label>
+                  <input type="date" id="po-expected-date" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label>Reference Number</label>
+                  <input type="text" id="po-reference-no" class="form-control" placeholder="Supplier Ref #">
+                </div>
+
+                <div class="form-group">
+                  <label>Payment Terms</label>
+                  <select id="po-payment-terms" class="form-control select-control">
+                    <option value="30 Days">30 Days</option>
+                    <option value="60 Days">60 Days</option>
+                    <option value="Immediate">Immediate</option>
+                    <option value="Net 15">Net 15</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Delivery Location</label>
+                  <input type="text" id="po-delivery-location" class="form-control" placeholder="Main Warehouse">
+                </div>
+
+                <div class="form-group col-span-2">
+                  <label>Created By</label>
+                  <input type="text" id="po-created-by" class="form-control" value="John Doe (Procurement Agent)">
+                </div>
+
+                <div class="form-group col-span-4">
+                  <label>Notes / Special Remarks</label>
+                  <textarea id="po-notes" class="form-control" placeholder="Additional purchasing instructions..."></textarea>
                 </div>
               </div>
             </div>
+
+            <!-- Section 2: Item Details Table -->
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-list-check" style="color: var(--primary);"></i>
+                  Section 2: Item Details
+                </span>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-add-item-row">
+                  <i class="fa-solid fa-plus"></i> Add Item Row
+                </button>
+              </div>
+
+              <div class="table-responsive items-table-wrapper">
+                <table class="data-table items-table">
+                  <thead>
+                    <tr>
+                      <th style="min-width: 220px;">Item Name</th>
+                      <th style="min-width: 110px;">Item Code</th>
+                      <th style="min-width: 200px;">Description</th>
+                      <th style="min-width: 90px; text-align: right;">Qty</th>
+                      <th style="min-width: 80px;">Unit</th>
+                      <th style="min-width: 110px; text-align: right;">Price ($)</th>
+                      <th style="min-width: 100px; text-align: right;">Disc ($)</th>
+                      <th style="min-width: 90px; text-align: right;">Tax (%)</th>
+                      <th style="min-width: 120px; text-align: right;">Line Total</th>
+                      <th style="width: 44px; text-align: center;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="po-items-table-body">
+                    <!-- Dynamic item rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Section 3: Section 3: Summary Panel & Actions (Positioned BELOW Section 2) -->
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-calculator" style="color: var(--primary);"></i>
+                  Section 3: Order Summary & Actions
+                </span>
+              </div>
+
+              <!-- Order Summary Block (Aligned Right) -->
+              <div class="po-summary-container" style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                <div class="po-summary-box" style="width: 320px; background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 24px; display: flex; flex-direction: column; gap: 12px;">
+                  <div class="summary-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted);">
+                    <span>Subtotal:</span>
+                    <span id="po-summary-subtotal" style="font-weight: 600; color: var(--text-main);">$0.00</span>
+                  </div>
+                  <div class="summary-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted);">
+                    <span>Total Discount:</span>
+                    <span id="po-summary-discount" style="color: #ef4444; font-weight: 600;">-$0.00</span>
+                  </div>
+                  <div class="summary-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted);">
+                    <span>Total Tax:</span>
+                    <span id="po-summary-tax" style="font-weight: 600; color: var(--text-main);">$0.00</span>
+                  </div>
+                  <div class="summary-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted);">
+                    <span>Additional Charges:</span>
+                    <input type="number" id="po-additional-charges" class="form-control" style="width: 100px; text-align: right; padding: 4px 8px;" min="0" step="0.01" value="0.00">
+                  </div>
+                  <div class="summary-row grand-total" style="display: flex; justify-content: space-between; align-items: center; font-size: 1.15rem; font-weight: 700; color: var(--primary); border-top: 2px solid var(--border-color); padding-top: 12px; margin-top: 4px;">
+                    <span>Grand Total:</span>
+                    <span id="po-summary-grandtotal">$0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Actions Bar -->
+              <div class="form-actions-footer" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                <button type="button" class="btn btn-secondary" id="btn-cancel-po">
+                  Cancel
+                </button>
+                <button type="button" class="btn btn-secondary" id="btn-save-draft">
+                  <i class="fa-solid fa-floppy-disk"></i> Save as Draft
+                </button>
+                <button type="submit" class="btn btn-primary" id="btn-submit-po">
+                  <i class="fa-solid fa-paper-plane"></i> Submit Order
+                </button>
+              </div>
+            </div>
+
           </form>
         </section>
 
