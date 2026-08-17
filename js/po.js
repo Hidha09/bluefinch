@@ -178,38 +178,38 @@ function addPOItemRow(itemData = null) {
   tr.id = rowId;
 
   tr.innerHTML = `
-    <td>
+    <td style="min-width: 220px;">
       <input type="hidden" class="row-item-id" value="${itemData ? itemData.item_id || '' : ''}">
-      <button type="button" class="btn btn-secondary btn-sm item-select-btn" onclick="openItemPickerModal('${rowId}')" style="width: 100%; justify-content: flex-start;">
-        <i class="fa-solid fa-magnifying-glass" style="color: var(--primary);"></i>
-        <span class="row-item-name-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${itemData ? escapeHtml(itemData.item_name || 'Select Item...') : 'Select Item...'}</span>
+      <button type="button" class="item-select-btn" onclick="openItemPickerModal('${rowId}')">
+        <span class="row-item-name-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;">${itemData ? escapeHtml(itemData.item_name || 'Select Item...') : 'Select Item...'}</span>
+        <i class="fa-solid fa-magnifying-glass" style="color: var(--primary); font-size: 0.85rem;"></i>
       </button>
     </td>
-    <td>
+    <td style="min-width: 110px;">
       <input type="text" class="form-control row-item-code" readonly value="${itemData ? escapeHtml(itemData.item_code || '') : ''}">
     </td>
-    <td>
-      <input type="text" class="form-control row-description" value="${itemData ? escapeHtml(itemData.description || '') : ''}" placeholder="Description">
+    <td style="min-width: 200px;">
+      <input type="text" class="form-control row-description" value="${itemData ? escapeHtml(itemData.description || '') : ''}" placeholder="Item Description">
     </td>
-    <td>
+    <td style="min-width: 90px;">
       <input type="number" class="form-control row-qty" min="1" step="1" value="${itemData ? (itemData.quantity || 1) : 1}" oninput="calculateRowAndSummary('${rowId}')">
     </td>
-    <td>
+    <td style="min-width: 80px;">
       <input type="text" class="form-control row-unit" readonly value="${itemData ? escapeHtml(itemData.unit || 'Pcs') : 'Pcs'}">
     </td>
-    <td>
+    <td style="min-width: 110px;">
       <input type="number" class="form-control row-price" min="0" step="0.01" value="${itemData ? parseFloat(itemData.unit_price || 0).toFixed(2) : '0.00'}" oninput="calculateRowAndSummary('${rowId}')">
     </td>
-    <td>
+    <td style="min-width: 100px;">
       <input type="number" class="form-control row-discount" min="0" step="0.01" value="${itemData ? parseFloat(itemData.discount || 0).toFixed(2) : '0.00'}" oninput="calculateRowAndSummary('${rowId}')">
     </td>
-    <td>
+    <td style="min-width: 90px;">
       <input type="number" class="form-control row-tax" min="0" step="0.1" value="${itemData ? (itemData.tax || 0) : 0}" oninput="calculateRowAndSummary('${rowId}')">
     </td>
-    <td>
+    <td style="min-width: 120px; text-align: right;">
       <strong class="row-linetotal">$${itemData ? parseFloat(itemData.line_total || 0).toFixed(2) : '0.00'}</strong>
     </td>
-    <td style="text-align: center;">
+    <td style="width: 44px; text-align: center;">
       <button type="button" class="btn-icon delete" onclick="removePOItemRow('${rowId}')" title="Remove Row"><i class="fa-solid fa-xmark"></i></button>
     </td>
   `;
