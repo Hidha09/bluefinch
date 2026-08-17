@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "item_code": "ITM-0001",
+    "item_name": "High-Precision Steel Ball Bearings",
+    "description": "Grade 10 chrome steel ball bearings 25mm for heavy machinery",
+    "category": "Hardware",
+    "unit": "Box",
+    "purchase_price": 120.00,
+    "tax": 18,
+    "status": "Active",
+    "created_at": "2026-01-10 11:00:00"
+  },
+  {
+    "id": 2,
+    "item_code": "ITM-0002",
+    "item_name": "Industrial Hydraulic Oil 20L",
+    "description": "ISO VG 46 Premium grade hydraulic lubricant fluid",
+    "category": "Chemicals",
+    "unit": "Can",
+    "purchase_price": 85.50,
+    "tax": 12,
+    "status": "Active",
+    "created_at": "2026-01-12 15:45:00"
+  },
+  {
+    "id": 3,
+    "item_code": "ITM-0003",
+    "item_name": "Embedded Controller Circuit Board",
+    "description": "ARM Cortex-M4 dual-core industrial controller unit",
+    "category": "Electronics",
+    "unit": "Pcs",
+    "purchase_price": 245.00,
+    "tax": 18,
+    "status": "Active",
+    "created_at": "2026-01-20 08:30:00"
+  },
+  {
+    "id": 4,
+    "item_code": "ITM-0004",
+    "item_name": "Heavy Duty Aluminium Casing",
+    "description": "Die-cast anodized aluminium enclosure 300x200x100mm",
+    "category": "Hardware",
+    "unit": "Pcs",
+    "purchase_price": 42.00,
+    "tax": 18,
+    "status": "Active",
+    "created_at": "2026-02-05 13:10:00"
+  }
+]

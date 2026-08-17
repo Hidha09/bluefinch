@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "supplier_id": "SUPID-1001",
+    "supplier_code": "SUP-001",
+    "supplier_name": "Acme Industrial Supplies",
+    "contact_person": "Robert Vance",
+    "phone": "+1 (555) 234-5678",
+    "email": "sales@acmeind.com",
+    "address": "742 Evergreen Terrace, Sector 4, Tech Park",
+    "tax_number": "TAX-US-98765",
+    "payment_terms": "30 Days",
+    "status": "Active",
+    "created_at": "2026-01-10 10:30:00"
+  },
+  {
+    "id": 2,
+    "supplier_id": "SUPID-1002",
+    "supplier_code": "SUP-002",
+    "supplier_name": "Global Tech Components",
+    "contact_person": "Elena Rostova",
+    "phone": "+1 (555) 876-5432",
+    "email": "contact@globaltech.io",
+    "address": "100 Innovation Way, Suite 400, Silicon Valley",
+    "tax_number": "TAX-US-54321",
+    "payment_terms": "60 Days",
+    "status": "Active",
+    "created_at": "2026-01-15 14:20:00"
+  },
+  {
+    "id": 3,
+    "supplier_id": "SUPID-1003",
+    "supplier_code": "SUP-003",
+    "supplier_name": "Apex Logistics & Raw Materials",
+    "contact_person": "David Chen",
+    "phone": "+1 (555) 345-6789",
+    "email": "dchen@apexmaterials.com",
+    "address": "45 Harbor View Drive, Building B, Industrial Zone",
+    "tax_number": "TAX-US-11223",
+    "payment_terms": "Immediate",
+    "status": "Active",
+    "created_at": "2026-02-01 09:15:00"
+  }
+]

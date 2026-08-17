@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1,
+    "po_number": "PO-2026-0001",
+    "po_date": "2026-02-01",
+    "supplier_id": 1,
+    "supplier_name": "Acme Industrial Supplies",
+    "expected_delivery_date": "2026-02-25",
+    "reference_number": "REF-ACME-884",
+    "payment_terms": "30 Days",
+    "delivery_location": "Main Warehouse - Gate 3, Sector 4",
+    "created_by": "John Doe (Purchasing Agent)",
+    "notes": "Urgent order for Q1 production run",
+    "status": "Completed",
+    "items": [
+      {
+        "item_id": 1,
+        "item_code": "ITM-0001",
+        "item_name": "High-Precision Steel Ball Bearings",
+        "description": "Grade 10 chrome steel ball bearings 25mm for heavy machinery",
+        "quantity": 10,
+        "unit": "Box",
+        "unit_price": 120.00,
+        "discount": 50.00,
+        "tax": 18,
+        "line_total": 1357.00
+      },
+      {
+        "item_id": 4,
+        "item_code": "ITM-0004",
+        "item_name": "Heavy Duty Aluminium Casing",
+        "description": "Die-cast anodized aluminium enclosure 300x200x100mm",
+        "quantity": 25,
+        "unit": "Pcs",
+        "unit_price": 42.00,
+        "discount": 0.00,
+        "tax": 18,
+        "line_total": 1239.00
+      }
+    ],
+    "subtotal": 2250.00,
+    "total_discount": 50.00,
+    "total_tax": 396.00,
+    "additional_charges": 75.00,
+    "grand_total": 2671.00,
+    "created_at": "2026-02-01 10:00:00"
+  },
+  {
+    "id": 2,
+    "po_number": "PO-2026-0002",
+    "po_date": "2026-02-10",
+    "supplier_id": 2,
+    "supplier_name": "Global Tech Components",
+    "expected_delivery_date": "2026-03-05",
+    "reference_number": "REF-GTC-2026-A",
+    "payment_terms": "60 Days",
+    "delivery_location": "Assembly Plant 2, Bay 7",
+    "created_by": "Sarah Smith (Procurement Manager)",
+    "notes": "Standard monthly restocking of microcontrollers",
+    "status": "Pending",
+    "items": [
+      {
+        "item_id": 3,
+        "item_code": "ITM-0003",
+        "item_name": "Embedded Controller Circuit Board",
+        "description": "ARM Cortex-M4 dual-core industrial controller unit",
+        "quantity": 15,
+        "unit": "Pcs",
+        "unit_price": 245.00,
+        "discount": 100.00,
+        "tax": 18,
+        "line_total": 4218.50
+      }
+    ],
+    "subtotal": 3675.00,
+    "total_discount": 100.00,
+    "total_tax": 643.50,
+    "additional_charges": 50.00,
+    "grand_total": 4268.50,
+    "created_at": "2026-02-10 11:30:00"
+  },
+  {
+    "id": 3,
+    "po_number": "PO-2026-0003",
+    "po_date": "2026-02-14",
+    "supplier_id": 3,
+    "supplier_name": "Apex Logistics & Raw Materials",
+    "expected_delivery_date": "2026-02-28",
+    "reference_number": "REF-APEX-9921",
+    "payment_terms": "Immediate",
+    "delivery_location": "Maintenance Depot, Workshop A",
+    "created_by": "John Doe (Purchasing Agent)",
+    "notes": "Draft order pending manager approval for discounts",
+    "status": "Draft",
+    "items": [
+      {
+        "item_id": 2,
+        "item_code": "ITM-0002",
+        "item_name": "Industrial Hydraulic Oil 20L",
+        "description": "ISO VG 46 Premium grade hydraulic lubricant fluid",
+        "quantity": 5,
+        "unit": "Can",
+        "unit_price": 85.50,
+        "discount": 0.00,
+        "tax": 12,
+        "line_total": 478.80
+      }
+    ],
+    "subtotal": 427.50,
+    "total_discount": 0.00,
+    "total_tax": 51.30,
+    "additional_charges": 20.00,
+    "grand_total": 498.80,
+    "created_at": "2026-02-14 16:45:00"
+  }
+]
