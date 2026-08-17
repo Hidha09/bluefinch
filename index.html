@@ -337,7 +337,7 @@
               </div>
             </div>
 
-            <!-- Section 3: Section 3: Summary Panel & Actions (Positioned BELOW Section 2) -->
+            <!-- Section 3: Summary Panel & Actions (Positioned BELOW Section 2) -->
             <div class="form-section-card">
               <div class="form-section-title">
                 <span style="display: flex; align-items: center; gap: 8px;">
@@ -346,9 +346,9 @@
                 </span>
               </div>
 
-              <!-- Order Summary Block (Aligned Right) -->
-              <div class="po-summary-container" style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-                <div class="po-summary-box" style="width: 320px; background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 24px; display: flex; flex-direction: column; gap: 12px;">
+              <div class="summary-section-grid" style="display: grid; grid-template-columns: 360px 1fr; gap: 24px; align-items: start; margin-bottom: 20px;">
+                <!-- Left Side: Order Summary Box -->
+                <div class="po-summary-box" style="background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 24px; display: flex; flex-direction: column; gap: 12px;">
                   <div class="summary-row" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; color: var(--text-muted);">
                     <span>Subtotal:</span>
                     <span id="po-summary-subtotal" style="font-weight: 600; color: var(--text-main);">$0.00</span>
@@ -369,6 +369,16 @@
                     <span>Grand Total:</span>
                     <span id="po-summary-grandtotal">$0.00</span>
                   </div>
+                </div>
+
+                <!-- Right Side: Order Guidelines Card -->
+                <div style="background-color: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px 24px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                  <h4 style="font-size: 0.88rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">Order Submission Checklist</h4>
+                  <ul style="padding-left: 18px; margin-bottom: 0;">
+                    <li>Ensure item quantities and prices correspond with official vendor quotes.</li>
+                    <li>Submitting this purchase order routes it for <strong>Pending</strong> approval.</li>
+                    <li>Click <strong>Save as Draft</strong> to store progress without submitting.</li>
+                  </ul>
                 </div>
               </div>
 
