@@ -837,6 +837,79 @@ textarea.form-control {
   min-height: 60px;
 }
 
+/* Section 2: Item Details Table Styling */
+.items-table {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.items-table th {
+  background-color: #f1f5f9;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.items-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #ffffff;
+}
+
+.items-table tr:last-child td {
+  border-bottom: none;
+}
+
+.items-table input.form-control {
+  padding: 6px 10px;
+  font-size: 0.84rem;
+  height: 36px;
+}
+
+.items-table input.row-qty,
+.items-table input.row-price,
+.items-table input.row-discount,
+.items-table input.row-tax {
+  text-align: right;
+}
+
+.item-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8fafc;
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  height: 36px;
+  font-size: 0.84rem;
+  color: var(--text-main);
+  transition: var(--transition);
+  text-align: left;
+}
+
+.item-select-btn:hover {
+  background-color: #f1f5f9;
+  border-color: var(--primary);
+}
+
+.row-linetotal {
+  display: block;
+  text-align: right;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.88rem;
+}
+
 /* PO Layout with Sticky Summary Panel */
 .po-form-layout {
   display: grid;

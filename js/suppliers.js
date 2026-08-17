@@ -20,7 +20,7 @@ function renderSupplierTable(suppliers) {
   if (!tbody) return;
 
   if (!suppliers || suppliers.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="10" class="empty-row"><i class="fa-solid fa-folder-open" style="font-size: 1.8rem; margin-bottom: 8px; color: var(--text-light); display: block;"></i> No suppliers found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" class="empty-row"><i class="fa-solid fa-folder-open" style="font-size: 1.8rem; margin-bottom: 8px; color: var(--text-light); display: block;"></i> No suppliers found.</td></tr>`;
     return;
   }
 
@@ -32,6 +32,7 @@ function renderSupplierTable(suppliers) {
       <td>${escapeHtml(s.contact_person || '')}</td>
       <td>${escapeHtml(s.phone || '-')}</td>
       <td><a href="mailto:${escapeHtml(s.email || '')}" style="color: var(--primary); text-decoration: none;">${escapeHtml(s.email || '-')}</a></td>
+      <td style="max-width: 200px; white-space: normal; color: var(--text-muted); font-size: 0.8rem;">${escapeHtml(s.address || '-')}</td>
       <td>${escapeHtml(s.tax_number || '-')}</td>
       <td>${escapeHtml(s.payment_terms || '-')}</td>
       <td><span class="badge ${s.status === 'Active' ? 'badge-active' : 'badge-inactive'}">${escapeHtml(s.status || 'Active')}</span></td>
