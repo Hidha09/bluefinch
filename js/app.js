@@ -1,5 +1,5 @@
 /**
- * Application Main Controller & View Router
+ * Main Enterprise ERP Router & Application Coordinator
  */
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
@@ -12,14 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
   loadItems();
 });
 
-// View Navigation & Router
 function showView(viewId) {
   // Hide all views
   document.querySelectorAll('.page-view').forEach(view => {
     view.classList.remove('active');
   });
 
-  // Deactivate all sidebar links
+  // Reset active menu states
   document.querySelectorAll('.menu-link, .submenu-link').forEach(link => {
     link.classList.remove('active');
   });
@@ -30,47 +29,50 @@ function showView(viewId) {
     targetView.classList.add('active');
   }
 
-  // Highlight corresponding link
+  // Highlight active link
   const targetLink = document.querySelector(`[data-view="${viewId}"]`);
   if (targetLink) {
     targetLink.classList.add('active');
+    // If inside submenu, open parent menu
+    const parentSubmenu = targetLink.closest('.menu-item.has-submenu');
+    if (parentSubmenu) {
+      parentSubmenu.classList.add('open');
+    }
   }
 
-  // Update Page Title
+  // Update Breadcrumbs & Header Title
   const titleEl = document.getElementById('current-page-title');
-  const subEl = document.getElementById('current-page-subtitle');
+  const breadcrumbEl = document.getElementById('breadcrumb-current');
 
   switch (viewId) {
     case 'dashboard':
-      titleEl.textContent = 'Purchase Dashboard';
-      subEl.textContent = 'Overview of purchasing operations and purchase order tracking';
+      if (titleEl) titleEl.textContent = 'Purchase Dashboard';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Dashboard';
       loadDashboard();
       break;
     case 'po-list':
-      titleEl.textContent = 'Purchase Orders';
-      subEl.textContent = 'Manage existing purchase orders, view status, or create new orders';
+      if (titleEl) titleEl.textContent = 'Purchase Orders';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Purchase Orders';
       loadPOList();
       break;
     case 'po-form':
-      titleEl.textContent = 'Purchase Order Form';
-      subEl.textContent = 'Create or modify purchase order details and line items';
+      if (titleEl) titleEl.textContent = 'Create Purchase Order';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'New Purchase Order';
       break;
     case 'suppliers':
-      titleEl.textContent = 'Supplier Master';
-      subEl.textContent = 'Manage registered vendor details, tax numbers, and contact records';
+      if (titleEl) titleEl.textContent = 'Supplier Master';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Suppliers';
       loadSuppliers();
       break;
     case 'items':
-      titleEl.textContent = 'Item Master';
-      subEl.textContent = 'Manage product items, categories, pricing, and default taxes';
+      if (titleEl) titleEl.textContent = 'Item Master';
+      if (breadcrumbEl) breadcrumbEl.textContent = 'Items';
       loadItems();
       break;
   }
 }
 
-// Navigation & Sidebar Handlers
 function initNavigation() {
-  // Click on menu links
   document.querySelectorAll('[data-view]').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -79,7 +81,6 @@ function initNavigation() {
     });
   });
 
-  // Expandable Masters Menu Toggle
   const toggleMastersBtn = document.getElementById('toggle-masters');
   const mastersMenu = document.getElementById('menu-masters');
   if (toggleMastersBtn && mastersMenu) {
@@ -90,9 +91,8 @@ function initNavigation() {
   }
 }
 
-// Global Event Listeners
 function initEventListeners() {
-  // PO List Buttons & Filters
+  // PO List Buttons
   document.getElementById('btn-open-create-po')?.addEventListener('click', () => {
     openCreatePOForm();
   });
@@ -161,7 +161,7 @@ function initEventListeners() {
     btn.addEventListener('click', closeItemModal);
   });
 
-  // Item Picker Modal Actions
+  // Item Picker Actions
   document.querySelectorAll('.close-picker').forEach(btn => {
     btn.addEventListener('click', closeItemPickerModal);
   });
